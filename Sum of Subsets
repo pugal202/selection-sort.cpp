@@ -1,0 +1,37 @@
+#include <iostream>
+using namespace std;
+
+int w[10], x[10], n, sum;
+
+void subset(int s, int k, int r) {
+    x[k] = 1;
+    if (s + w[k] == sum) {
+        for (int i = 0; i <= k; i++)
+            if (x[i]) cout << w[i] << " ";
+        cout << endl;
+    }
+    else if (s + w[k] + w[k+1] <= sum)
+        subset(s + w[k], k + 1, r - w[k]);
+
+    if ((s + r - w[k] >= sum) && (s + w[k+1] <= sum)) {
+        x[k] = 0;
+        subset(s, k + 1, r - w[k]);
+    }
+}
+
+int main() {
+    cout << "Enter number of elements: ";
+    cin >> n;
+
+    cout << "Enter elements: ";
+    int total = 0;
+    for (int i = 0; i < n; i++) {
+        cin >> w[i];
+        total += w[i];
+    }
+
+    cout << "Enter required sum: ";
+    cin >> sum;
+
+    subset(0, 0, total);
+}
